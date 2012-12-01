@@ -19,7 +19,8 @@ Features:
 Requirements:
 -------------
 * SELF-HOSTED Wordpress blog
-* JSON API plugin for Wordpress (http://wordpress.org/extend/plugins/json-api/)
+* JSON API plugin for Wordpress [(http://wordpress.org/extend/plugins/json-api/)
+](http://wordpress.org/extend/plugins/json-api/)
 * XCode :)
 
 Usage:
@@ -32,7 +33,7 @@ Usage:
 
 Dependencies:
 --------
-This project uses JSONKit, Copyright (c) 2011, John Engelhart. For the JSONKit license, refer to the sources in the JSONKit subdirectory.
+This project uses [JSONKit](https://github.com/johnezang/JSONKit), Copyright (c) 2011, John Engelhart. For the JSONKit license, refer to the sources in the JSONKit subdirectory.
 
 License:
 --------
