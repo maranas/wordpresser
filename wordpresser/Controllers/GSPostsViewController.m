@@ -194,7 +194,7 @@
             }
             posts = [[[res objectForKey:@"posts"] retain] autorelease];
             for (id post in posts) {
-                NSString* postID = [NSString stringWithFormat:@"%d", [post objectForKey:@"id"]];
+                NSString* postID = [NSString stringWithFormat:@"%@", [post objectForKey:@"id"]];
                 if (![postIDs containsObject:postID])
                 {
                     [postIDs addObject:postID];
