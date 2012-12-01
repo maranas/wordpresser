@@ -37,7 +37,7 @@ static dispatch_queue_t queue;
     {
         queue = dispatch_queue_create(DISPATCH_QUEUE_NAME,NULL);
         dispatch_retain(queue);
-        // TODO: clear cache for every load
+        [self clearImageCache];
     }
     return self;
 }
@@ -92,9 +92,21 @@ static dispatch_queue_t queue;
         NSData *theData = [NSURLConnection sendSynchronousRequest:req returningResponse:&res error:&err];
         [[NSFileManager defaultManager] createFileAtPath:imagename contents:theData attributes:nil];
         [view setImage:[UIImage imageWithContentsOfFile:imagename]];
-        [view setNeedsDisplay];
+        [view performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil waitUntilDone:NO];
     };
     dispatch_async(queue, block);
+}
+
+- (void) clearImageCache
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *imageDir = [documentsDirectory stringByAppendingPathComponent:CACHE_PATH];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:imageDir])
+    {
+        [[NSFileManager defaultManager] removeItemAtPath:imageDir error:nil];
+        return;
+    }
 }
 
 @end

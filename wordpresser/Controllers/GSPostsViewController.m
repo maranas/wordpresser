@@ -176,6 +176,16 @@
             }
             else {
                 NSLog(@"no data");
+                [self.tableView reloadData];
+                [self.tableView setNeedsDisplay];
+                [self.tableView setNeedsLayout];
+                loading = NO;
+                NSString* messageString = @"Couldn't retrieve data; check your data connection's availability.";
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"No data available!"
+                                                                message: messageString
+                                                               delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                [alert show];
+                [alert release];
                 return;
             }
         }
