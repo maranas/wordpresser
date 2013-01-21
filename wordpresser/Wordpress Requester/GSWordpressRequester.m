@@ -63,6 +63,21 @@ static dispatch_queue_t queue;
     dispatch_async(queue, block);
 }
 
+- (void) downloadContentForURIString:(NSString*)uri target:(id)target callback:(SEL)selector
+{
+    void (^block)(void) = ^{
+        NSLog(@"uri: %@", uri);
+        NSURLRequest *req = [NSURLRequest requestWithURL:[NSURL URLWithString:uri]];
+        NSURLResponse *res = nil;
+        NSError *err = nil;
+        NSData *theData = [NSURLConnection sendSynchronousRequest:req returningResponse:&res error:&err];
+        NSString *ret = [[NSString alloc] initWithData:theData encoding:NSUTF8StringEncoding];
+        [target performSelectorOnMainThread:selector withObject:[ret objectFromJSONString] waitUntilDone:NO];
+        NSLog(@"%@", ret);
+    };
+    dispatch_async(queue, block);
+}
+
 - (void) downloadImageFromURI:(NSString*)uri forView:(UIImageView*)view
 {
     if (uri == nil)

@@ -8,6 +8,7 @@
 
 #import "GSPostViewerController.h"
 #import "GSPostsViewController.h"
+#import "GSWordpressRequester.h"
 #import <QuartzCore/QuartzCore.h>
 
 @interface GSPostViewerController ()
@@ -85,7 +86,11 @@
 
 - (IBAction)refreshClick:(id)sender {
     [[self webView] stopLoading];
-    [[self webView] reload];
+    if ([[[[[self webView] request] URL] absoluteString] isEqualToString:@"about:blank"]) {
+        NSLog(@"Won't refresh post");
+    } else {
+        [[self webView] reload];
+    }
 }
 
 - (IBAction)backNavClick:(id)sender {
@@ -102,10 +107,22 @@
 
 - (void) loadContentsOfPageWithLink:(NSString*)link
 {
-    NSURL *url = [NSURL URLWithString:link];
-    NSURLRequest *request = [NSURLRequest requestWithURL:url];
     // replace with requester call!
-    [[self webView] loadRequest:request];
+    // [[self webView] loadRequest:request];
+    [[GSWordpressRequester sharedRequester] downloadContentForURIString:link target:self callback:@selector(contentLoadCallback:)];
+}
+
+- (void) contentLoadCallback:(id)res {
+    NSDictionary* page = [res objectForKey:@"post"];
+    if (page == nil) {
+        page = [res objectForKey:@"page"];
+        if (page == nil) {
+            NSLog(@"Empty/invalid JSON response");
+            return;
+        }
+    }
+    NSString* htmlString = [page objectForKey:@"content"];
+    [[self webView] loadHTMLString:htmlString baseURL:nil];
 }
 
 - (void)dealloc {

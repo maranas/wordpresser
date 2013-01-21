@@ -18,6 +18,7 @@
 + (GSWordpressRequester*) sharedRequester;
 
 - (void) downloadFeedForURIString:(NSString*)uri page:(NSInteger)page target:(id)target callback:(SEL)selector;
+- (void) downloadContentForURIString:(NSString*)uri target:(id)target callback:(SEL)selector;
 - (void) downloadImageFromURI:(NSString*)uri forView:(UIImageView*)view;
 
 @end
