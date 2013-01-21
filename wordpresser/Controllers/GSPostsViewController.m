@@ -191,7 +191,12 @@
         }
         NSArray *posts;
         if (![[res allKeys] containsObject:@"posts"]) {
-            NSString *uri = [[[res objectForKey:@"page"] objectForKey:@"url"] stringByAppendingString:@"?json=1"];
+            NSString *uri = [[res objectForKey:@"page"] objectForKey:@"url"] ;
+            if ([uri rangeOfString:@"?"].location == NSNotFound) {
+                uri = [uri stringByAppendingString:@"?json=1"];
+            } else {
+                uri = [uri stringByAppendingString:@"&json=1"];
+            }
             [[self postViewer] loadContentsOfPageWithLink:uri];
             [self showViewer];
         }
@@ -221,7 +226,12 @@
 
 - (void)viewEntryForIndexPath:(NSIndexPath*)indexPath {
     NSDictionary *post = [postData objectForKey:[postIDs objectAtIndex:indexPath.row]];
-    NSString *uri = [[post objectForKey:@"url"] stringByAppendingString:@"?json=1"];
+    NSString *uri = [post objectForKey:@"url"];
+    if ([uri rangeOfString:@"?"].location == NSNotFound) {
+        uri = [uri stringByAppendingString:@"?json=1"];
+    } else {
+        uri = [uri stringByAppendingString:@"&json=1"];
+    }
     [[self postViewer] loadContentsOfPageWithLink:uri];
     [self showViewer];
 }
