@@ -280,7 +280,7 @@
         NSDictionary *post = [postData objectForKey:[postIDs objectAtIndex:indexPath.row]];
         [[cell titleText] setText:[post objectForKey:@"title"]];
         [[cell excerptText] setText:[post objectForKey:@"excerpt"]];
-        [[GSWordpressRequester sharedRequester] downloadImageFromURI:[self extractImageURIFromPost:post] forView:[cell imageView]];
+        [[GSWordpressRequester sharedRequester] downloadImageFromURI:[GSPostsViewController extractImageURIFromPost:post] forView:[cell imageView]];
     }
     else {
         [[cell titleText] setHidden:YES];
@@ -305,7 +305,7 @@
 
 
 // utility methods
-- (NSString*) extractImageURIFromPost:(id)post
++ (NSString*) extractImageURIFromPost:(id)post
 {
     NSArray* attachments = [post objectForKey:@"attachments"];
     if ([attachments count] > 0) {

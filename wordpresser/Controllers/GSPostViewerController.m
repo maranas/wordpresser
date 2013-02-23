@@ -40,6 +40,11 @@
     l.shadowOffset = CGSizeMake(0,2);
     l.shadowRadius = 2;
     l.shadowOpacity = 0.2;
+    for(UIView *subview in [[[self.webView subviews] objectAtIndex:0] subviews]) {
+        if([subview isKindOfClass:[UIImageView class]]) {
+            [subview setHidden:YES];
+        }
+    }
 }
 
 - (void)viewDidUnload
@@ -121,7 +126,21 @@
             return;
         }
     }
-    NSString* htmlString = [page objectForKey:@"content"];
+    NSString* htmlStyle = @"<style type=\"text/css\">div.body {margin-top:20px; margin-bottom:20px; margin-right:20px; margin-left:20px; font-family: Georgia, serif} div.title {font-family: Helvetica, Verdana, serif; color:black; font-size: 20px; font-weight: bold;} div.author {color: gray; font-size: 12px; font-weight: italic} div.content {color: black} img {margin-top:10px; margin-bottom:10px; margin-right:10px; margin-left:10px;} </style>";
+    
+    NSString *imageHeader = @"";
+    /* TODO: images? i don't think we need it
+    NSString* urlForImage = [GSPostsViewController extractImageURIFromPost:page];
+    if (urlForImage != nil) {
+        imageHeader = [NSString stringWithFormat:@"<img src=\"%@\"></img>", urlForImage];
+    }
+    */
+    NSString* htmlString = [NSString stringWithFormat:@"<html><head>%@</head><body>%@<div class=\"body\"><div class=\"title\">%@</div><div class=\"author\"> by %@ </div><div class=\"content\">%@</div></div></body></html>",
+                            htmlStyle,
+                            imageHeader,
+                            [page objectForKey:@"title"],
+                            [[page objectForKey:@"author"] objectForKey:@"nickname"],
+                            [page objectForKey:@"content"]];
     [[self webView] loadHTMLString:htmlString baseURL:nil];
 }
 

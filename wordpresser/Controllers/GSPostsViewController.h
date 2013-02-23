@@ -37,4 +37,6 @@
 - (void) viewEntryForIndexPath:(NSIndexPath*)indexPath;
 - (void) refreshCallback:(id)res;
 
++ (NSString*) extractImageURIFromPost:(id)post;
+
 @end
