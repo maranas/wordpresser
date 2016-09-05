@@ -1,5 +1,12 @@
+Update:
+-------
+wordpresser is dead :( This was written for iOS 4, I was just playing with blocks and block syntax, and it doesn't play well with ARC anymore. I won't be fixing issues under this anymore. Sorry :(
+
+I am working on something with Swift though, watch out for that.
+
 wordpresser
 ===========
+
 wordpresser is a "framework" project to build iOS apps on top of self-hosted WordPress blogs.
 
 ![Posts list](http://i.imgur.com/P3nlx.png "Posts list")
